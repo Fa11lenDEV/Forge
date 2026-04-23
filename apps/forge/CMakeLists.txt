@@ -3,6 +3,7 @@ add_executable(forge
   commands/init.cpp
   commands/add.cpp
   commands/status.cpp
+  commands/config.cpp
   commands/commit.cpp
   commands/log.cpp
   commands/diff.cpp

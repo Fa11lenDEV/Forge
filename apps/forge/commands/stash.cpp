@@ -41,6 +41,14 @@ int stash(const forge_cli::ParsedArgs& a) {
     return 0;
   }
 
+  if (sub == "apply") {
+    if (!forge_core::stash::apply(wd, &err)) {
+      std::cerr << "forge stash: " << err << "\n";
+      return 1;
+    }
+    return 0;
+  }
+
   std::cerr << "forge stash: unknown subcommand\n";
   return 2;
 }

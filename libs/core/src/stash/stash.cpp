@@ -54,5 +54,14 @@ bool pop(const std::filesystem::path& workdir, std::string* err) {
   return true;
 }
 
+bool apply(const std::filesystem::path& workdir, std::string* err) {
+  auto top = read_top(workdir, err);
+  if (!top) {
+    if (err) *err = "stash is empty";
+    return false;
+  }
+  return forge_core::checkout::checkout_commit(workdir, *top, err);
+}
+
 }
 

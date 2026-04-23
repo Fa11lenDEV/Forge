@@ -13,6 +13,7 @@ Commands:
   init
   add
   status
+  config
   commit
   log
   diff
@@ -56,6 +57,18 @@ R"(Usage:
   forge status
 )";
   }
+  if (cmd == "config") {
+    return
+R"(Usage:
+  forge config --list
+  forge config --global --list
+  forge config [--global] <key> <value>
+
+Examples:
+  forge config --global user.name "Your Name"
+  forge config --global user.email "you@example.com"
+)";
+  }
   if (cmd == "commit") {
     return
 R"(Usage:
@@ -65,7 +78,7 @@ R"(Usage:
   if (cmd == "log") {
     return
 R"(Usage:
-  forge log
+  forge log [--oneline]
 )";
   }
   if (cmd == "diff") {
@@ -79,6 +92,7 @@ R"(Usage:
 R"(Usage:
   forge branch
   forge branch <name>
+  forge branch -d <name>
 )";
   }
   if (cmd == "switch" || cmd == "checkout") {
@@ -86,12 +100,15 @@ R"(Usage:
 R"(Usage:
   forge switch <branch>
   forge checkout <branch>
+  forge checkout -b <branch>
+  forge checkout -- <path>
 )";
   }
   if (cmd == "reset") {
     return
 R"(Usage:
   forge reset [--hard] <commit>
+  forge reset HEAD <path...>
 )";
   }
   if (cmd == "merge") {
@@ -116,6 +133,7 @@ R"(Usage:
     return
 R"(Usage:
   forge stash push [--m=<msg>]
+  forge stash apply
   forge stash pop
   forge stash list
 )";

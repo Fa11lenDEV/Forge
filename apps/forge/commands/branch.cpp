@@ -24,6 +24,26 @@ int branch(const forge_cli::ParsedArgs& a) {
   std::string err;
   auto wd = forge_platform::path::cwd();
 
+  if (a.has_flag("d") || a.has_flag("delete")) {
+    if (a.positionals.empty()) {
+      std::cerr << "forge branch: provide a branch name\n";
+      return 2;
+    }
+    auto name = a.positionals[0];
+    auto head = forge_core::refs::read_head(wd, &err);
+    if (head && head->is_ref && head->value == "refs/heads/" + name) {
+      std::cerr << "forge branch: cannot delete the current branch\n";
+      return 1;
+    }
+    std::error_code ec;
+    std::filesystem::remove(wd / ".forge" / "refs" / "heads" / name, ec);
+    if (ec) {
+      std::cerr << "forge branch: failed to delete branch\n";
+      return 1;
+    }
+    return 0;
+  }
+
   if (a.positionals.empty()) {
     auto head = forge_core::refs::read_head(wd, &err);
     auto branches = list_heads(wd);

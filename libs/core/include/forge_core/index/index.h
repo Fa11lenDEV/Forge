@@ -33,5 +33,8 @@ struct StatusLine {
 
 std::vector<StatusLine> status(const std::filesystem::path& workdir, std::string* err);
 
+bool unstage_paths(const std::filesystem::path& workdir, const std::vector<std::string>& paths, std::string* err);
+std::optional<Entry> get_entry(const std::filesystem::path& workdir, const std::string& rel_path, std::string* err);
+
 }
 

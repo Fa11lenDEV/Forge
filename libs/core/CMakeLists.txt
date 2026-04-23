@@ -1,5 +1,6 @@
 add_library(forge_core STATIC
   src/repo/repo.cpp
+  src/config/config.cpp
   src/objectstore/objectstore.cpp
   src/index/index.cpp
   src/refs/refs.cpp

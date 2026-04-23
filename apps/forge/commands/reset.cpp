@@ -1,5 +1,6 @@
 #include "forge_cli/args.h"
 #include "forge_core/checkout/checkout.h"
+#include "forge_core/index/index.h"
 #include "forge_core/refs/refs.h"
 #include "forge_platform/path.h"
 
@@ -8,6 +9,17 @@
 namespace forge_app::commands {
 
 int reset(const forge_cli::ParsedArgs& a) {
+  if (a.positionals.size() >= 2 && a.positionals[0] == "HEAD") {
+    std::string err;
+    auto wd = forge_platform::path::cwd();
+    std::vector<std::string> paths(a.positionals.begin() + 1, a.positionals.end());
+    if (!forge_core::index::unstage_paths(wd, paths, &err)) {
+      std::cerr << "forge reset: " << err << "\n";
+      return 1;
+    }
+    return 0;
+  }
+
   auto target = a.option("to");
   if (target.empty() && !a.positionals.empty()) target = a.positionals[0];
   if (target.empty()) {

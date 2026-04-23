@@ -7,8 +7,9 @@ namespace forge_app::commands {
 int init();
 int add(const forge_cli::ParsedArgs& a);
 int status();
+int config(const forge_cli::ParsedArgs& a);
 int commit(const forge_cli::ParsedArgs& a);
-int log();
+int log(const forge_cli::ParsedArgs& a);
 int diff();
 int branch(const forge_cli::ParsedArgs& a);
 int sw(const forge_cli::ParsedArgs& a);
@@ -41,8 +42,9 @@ static int run(const forge_cli::ParsedArgs& a) {
   if (a.command == "init") return forge_app::commands::init();
   if (a.command == "add") return forge_app::commands::add(a);
   if (a.command == "status") return forge_app::commands::status();
+  if (a.command == "config") return forge_app::commands::config(a);
   if (a.command == "commit") return forge_app::commands::commit(a);
-  if (a.command == "log") return forge_app::commands::log();
+  if (a.command == "log") return forge_app::commands::log(a);
   if (a.command == "diff") return forge_app::commands::diff();
   if (a.command == "branch") return forge_app::commands::branch(a);
   if (a.command == "switch" || a.command == "checkout") return forge_app::commands::sw(a);

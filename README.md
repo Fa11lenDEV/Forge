@@ -41,17 +41,26 @@ echo hello > a.txt
 - `forge init`
 - `forge add <paths...>`
 - `forge status`
+- `forge config --list`
+- `forge config --global user.name "Your Name"`
+- `forge config --global user.email "you@example.com"`
 - `forge diff`
 - `forge commit --m=<message>` (or `--message=<message>`)
 - `forge log`
+- `forge log --oneline`
 - `forge branch [name]`
+- `forge branch -d <name>`
 - `forge switch <branch>` / `forge checkout <branch>`
+- `forge checkout -b <branch>`
+- `forge checkout -- <path>`
 - `forge reset [--hard] <commit>`
+- `forge reset HEAD <path...>`
 - `forge merge <branch> [--m=<message>]`
 - `forge rebase <upstream-branch> [--hard]`
 - `forge tag <name>`
 - `forge stash push [--m=<msg>]`
 - `forge stash list`
+- `forge stash apply`
 - `forge stash pop`
 - `forge submodule add <url> <path>`
 - `forge submodule status`

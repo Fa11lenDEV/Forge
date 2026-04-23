@@ -231,5 +231,27 @@ std::vector<StatusLine> status(const std::filesystem::path& workdir, std::string
   return out;
 }
 
+std::optional<Entry> get_entry(const std::filesystem::path& workdir, const std::string& rel_path, std::string* err) {
+  auto maybe = load(workdir, err);
+  if (!maybe) return std::nullopt;
+  auto it = maybe->entries.find(rel_path);
+  if (it == maybe->entries.end()) return std::nullopt;
+  return it->second;
+}
+
+bool unstage_paths(const std::filesystem::path& workdir, const std::vector<std::string>& paths, std::string* err) {
+  auto maybe = load(workdir, err);
+  if (!maybe) return false;
+  auto idx = *maybe;
+
+  for (const auto& s : paths) {
+    auto p = std::filesystem::path(s).generic_string();
+    if (p == ".") continue;
+    if (!p.empty() && p[0] == '/') p.erase(0, 1);
+    idx.entries.erase(p);
+  }
+  return save(workdir, idx, err);
+}
+
 }
 

@@ -1,5 +1,6 @@
 #include "forge_core/commit/commit.h"
 
+#include "forge_core/config/config.h"
 #include "forge_core/index/index.h"
 #include "forge_core/objectstore/objectstore.h"
 #include "forge_core/refs/refs.h"
@@ -34,7 +35,11 @@ static std::string build_tree(const index::Index& idx) {
   return out;
 }
 
-static std::string build_commit(const std::string& tree_hex, const std::optional<std::string>& parent, const std::string& message) {
+static std::string build_commit(const std::filesystem::path& workdir, const std::string& tree_hex, const std::optional<std::string>& parent, const std::string& message) {
+  auto name = forge_core::config::get_effective(workdir, "user.name", "unknown");
+  auto email = forge_core::config::get_effective(workdir, "user.email", "unknown");
+  auto ident = name + " <" + email + ">";
+
   std::string out;
   out.append("tree ");
   out.append(tree_hex);
@@ -45,11 +50,13 @@ static std::string build_commit(const std::string& tree_hex, const std::optional
     out.push_back('\n');
   }
   out.append("author ");
-  out.append("unknown ");
+  out.append(ident);
+  out.push_back(' ');
   out.append(now_seconds());
   out.push_back('\n');
   out.append("committer ");
-  out.append("unknown ");
+  out.append(ident);
+  out.push_back(' ');
   out.append(now_seconds());
   out.push_back('\n');
   out.push_back('\n');
@@ -72,7 +79,7 @@ CommitResult create_commit_from_index(const std::filesystem::path& workdir, cons
   }
 
   auto parent = refs::resolve_head_commit(workdir, nullptr);
-  auto commit_data = build_commit(tree_id.hex, parent, message);
+  auto commit_data = build_commit(workdir, tree_id.hex, parent, message);
   auto commit_id = objectstore::store_loose(workdir, objectstore::ObjectType::Commit, commit_data, &oerr);
   if (commit_id.hex.empty()) {
     if (err) *err = oerr;
