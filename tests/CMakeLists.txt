@@ -6,3 +6,7 @@ add_executable(forge_integration integration.cpp)
 target_link_libraries(forge_integration PRIVATE forge_core forge_platform)
 add_test(NAME forge_integration COMMAND forge_integration)
 
+add_executable(forge_remote_http remote_http.cpp)
+target_link_libraries(forge_remote_http PRIVATE forge_core forge_platform forge_server)
+add_test(NAME forge_remote_http COMMAND forge_remote_http)
+

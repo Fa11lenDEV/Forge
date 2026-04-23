@@ -11,6 +11,10 @@ add_library(forge_core STATIC
   src/tag/tag.cpp
   src/stash/stash.cpp
   src/submodule/submodule.cpp
+  src/remote/url.cpp
+  src/remote/transport.cpp
+  src/transfer/frames.cpp
+  src/transfer/snapshot.cpp
 )
 
 target_include_directories(forge_core PUBLIC include)

@@ -1,4 +1,6 @@
 #include "forge_cli/args.h"
+#include "forge_core/remote/transport.h"
+#include "forge_core/remote/url.h"
 #include "forge_platform/fs.h"
 #include "forge_platform/path.h"
 
@@ -50,7 +52,21 @@ int fetch(const forge_cli::ParsedArgs& a) {
     std::cerr << "forge fetch: remote not found\n";
     return 1;
   }
-  auto remote = std::filesystem::path(*rp);
+  auto url = std::string(*rp);
+  auto parsed = forge_core::remote::parse_url(url);
+  if (parsed && (parsed->scheme == forge_core::remote::Scheme::Http || parsed->scheme == forge_core::remote::Scheme::Https)) {
+    forge_core::remote::RemoteSpec spec;
+    spec.url = url;
+    spec.token = a.option("token");
+    auto r = forge_core::remote::fetch_into_repo(wd, spec);
+    if (!r.ok) {
+      std::cerr << "forge fetch: " << r.err << "\n";
+      return 1;
+    }
+    return 0;
+  }
+
+  auto remote = std::filesystem::path(url);
   if (remote.is_relative()) remote = (wd / remote).lexically_normal();
 
   std::string err;

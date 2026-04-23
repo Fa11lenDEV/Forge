@@ -1,5 +1,6 @@
 add_library(forge_server STATIC
   src/handlers.cpp
+  src/api.cpp
 )
 
 target_include_directories(forge_server PUBLIC include)

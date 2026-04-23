@@ -32,6 +32,7 @@ Commands:
   pull
   import-git
   export-git
+  serve
   help
 )";
 }
@@ -142,13 +143,13 @@ R"(Usage:
   if (cmd == "fetch") {
     return
 R"(Usage:
-  forge fetch [remote]
+  forge fetch [remote] [--token=<token>]
 )";
   }
   if (cmd == "push") {
     return
 R"(Usage:
-  forge push [remote]
+  forge push [remote] [--token=<token>]
 )";
   }
   if (cmd == "pull") {
@@ -167,6 +168,16 @@ R"(Usage:
     return
 R"(Usage:
   forge export-git [dest]
+)";
+  }
+  if (cmd == "serve") {
+    return
+R"(Usage:
+  forge serve --http=:8080 [--repo=<path>]
+  forge serve --stdio --repo=<path>
+
+Environment:
+  FORGE_TOKEN=<token> (optional; enables Bearer auth)
 )";
   }
   return root_help();

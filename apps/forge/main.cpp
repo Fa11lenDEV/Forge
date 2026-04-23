@@ -23,6 +23,7 @@ int clone(const forge_cli::ParsedArgs& a);
 int fetch(const forge_cli::ParsedArgs& a);
 int push(const forge_cli::ParsedArgs& a);
 int pull(const forge_cli::ParsedArgs& a);
+int serve(const forge_cli::ParsedArgs& a);
 int import_git(const forge_cli::ParsedArgs& a);
 int export_git(const forge_cli::ParsedArgs& a);
 }
@@ -56,6 +57,7 @@ static int run(const forge_cli::ParsedArgs& a) {
   if (a.command == "fetch") return forge_app::commands::fetch(a);
   if (a.command == "push") return forge_app::commands::push(a);
   if (a.command == "pull") return forge_app::commands::pull(a);
+  if (a.command == "serve") return forge_app::commands::serve(a);
   if (a.command == "import-git") return forge_app::commands::import_git(a);
   if (a.command == "export-git") return forge_app::commands::export_git(a);
 
