@@ -9,6 +9,7 @@ namespace forge_core::remote {
 struct RemoteSpec {
   std::string url;
   std::string token;
+  std::string remote_name;
 };
 
 struct FetchResult {

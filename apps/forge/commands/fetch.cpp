@@ -58,6 +58,7 @@ int fetch(const forge_cli::ParsedArgs& a) {
     forge_core::remote::RemoteSpec spec;
     spec.url = url;
     spec.token = a.option("token");
+    spec.remote_name = name;
     auto r = forge_core::remote::fetch_into_repo(wd, spec);
     if (!r.ok) {
       std::cerr << "forge fetch: " << r.err << "\n";

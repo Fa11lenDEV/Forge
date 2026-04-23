@@ -1,6 +1,7 @@
 #include "forge_core/config/config.h"
 
 #include "forge_core/repo/repo.h"
+#include "forge_core/crypto/file.h"
 #include "forge_platform/fs.h"
 
 #include <cstdlib>
@@ -26,7 +27,7 @@ std::filesystem::path global_config_path() {
 
 std::optional<Map> load_file(const std::filesystem::path& path, std::string* err) {
   Map m;
-  auto raw = forge_platform::fs::read_file(path);
+  auto raw = forge_core::crypto::file::read_repo_file(std::filesystem::current_path(), path, err);
   if (!raw) return m;
 
   std::string_view s(*raw);
@@ -60,7 +61,7 @@ bool save_file(const std::filesystem::path& path, const Map& m, std::string* err
     if (err) *err = "failed to create config directory";
     return false;
   }
-  if (!forge_platform::fs::write_file_atomic(path, out)) {
+  if (!forge_core::crypto::file::write_repo_file_atomic(std::filesystem::current_path(), path, out, err)) {
     if (err) *err = "failed to write config";
     return false;
   }

@@ -20,6 +20,7 @@ int tag(const forge_cli::ParsedArgs& a);
 int stash(const forge_cli::ParsedArgs& a);
 int submodule(const forge_cli::ParsedArgs& a);
 int remote(const forge_cli::ParsedArgs& a);
+int auth(const forge_cli::ParsedArgs& a);
 int clone(const forge_cli::ParsedArgs& a);
 int fetch(const forge_cli::ParsedArgs& a);
 int push(const forge_cli::ParsedArgs& a);
@@ -55,6 +56,7 @@ static int run(const forge_cli::ParsedArgs& a) {
   if (a.command == "stash") return forge_app::commands::stash(a);
   if (a.command == "submodule") return forge_app::commands::submodule(a);
   if (a.command == "remote") return forge_app::commands::remote(a);
+  if (a.command == "auth") return forge_app::commands::auth(a);
   if (a.command == "clone") return forge_app::commands::clone(a);
   if (a.command == "fetch") return forge_app::commands::fetch(a);
   if (a.command == "push") return forge_app::commands::push(a);

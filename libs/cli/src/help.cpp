@@ -27,6 +27,7 @@ Commands:
   stash
   submodule
   remote
+  auth
   clone
   fetch
   push
@@ -152,6 +153,14 @@ R"(Usage:
   forge remote list
 )";
   }
+  if (cmd == "auth") {
+    return
+R"(Usage:
+  forge auth set-token <remote> <token>
+  forge auth show <remote>
+  forge auth delete <remote>
+)";
+  }
   if (cmd == "clone") {
     return
 R"(Usage:
@@ -185,13 +194,14 @@ R"(Usage:
   if (cmd == "export-git") {
     return
 R"(Usage:
-  forge export-git [dest]
+  forge export-git [dest] [--force]
 )";
   }
   if (cmd == "serve") {
     return
 R"(Usage:
-  forge serve --http=:8080 [--repo=<path>]
+  forge serve --http=:8080 [--repo=<path>] [--public]
+  forge serve --https=:8443 --cert=<cert.pem> --key=<key.pem> [--repo=<path>] [--public]
   forge serve --stdio --repo=<path>
 
 Environment:

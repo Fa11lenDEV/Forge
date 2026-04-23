@@ -1,5 +1,6 @@
 #include "forge_core/index/index.h"
 
+#include "forge_core/crypto/file.h"
 #include "forge_core/objectstore/objectstore.h"
 #include "forge_core/repo/repo.h"
 #include "forge_format/hash.h"
@@ -62,7 +63,7 @@ static std::optional<std::uint64_t> read_u64(std::string_view s, size_t& off) {
 
 std::optional<Index> load(const std::filesystem::path& workdir, std::string* err) {
   auto paths = repo::make_paths(workdir);
-  auto raw = forge_platform::fs::read_file(paths.index_file);
+  auto raw = forge_core::crypto::file::read_repo_file(workdir, paths.index_file, err);
   if (!raw) {
     if (err) *err = "index missing";
     return std::nullopt;
@@ -124,7 +125,7 @@ bool save(const std::filesystem::path& workdir, const Index& idx, std::string* e
     out.append(e.path);
     out.append(e.blob_hex);
   }
-  if (!forge_platform::fs::write_file_atomic(paths.index_file, out)) {
+  if (!forge_core::crypto::file::write_repo_file_atomic(workdir, paths.index_file, out, err)) {
     if (err) *err = "failed to write index";
     return false;
   }

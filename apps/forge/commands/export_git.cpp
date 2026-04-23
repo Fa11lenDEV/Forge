@@ -42,7 +42,19 @@ int export_git(const forge_cli::ParsedArgs& a) {
 
   std::string err;
   std::error_code ec;
-  std::filesystem::remove_all(dest, ec);
+  auto force = a.has_flag("force");
+  if (std::filesystem::exists(dest, ec)) {
+    auto norm = dest.lexically_normal();
+    if (!force) {
+      std::cerr << "forge export-git: destination exists (use --force)\n";
+      return 2;
+    }
+    if (norm.empty() || norm == norm.root_path()) {
+      std::cerr << "forge export-git: refusing dangerous destination\n";
+      return 1;
+    }
+    std::filesystem::remove_all(dest, ec);
+  }
   std::filesystem::create_directories(dest, ec);
 
   if (!copy_worktree(wd, dest, &err)) {
@@ -50,14 +62,12 @@ int export_git(const forge_cli::ParsedArgs& a) {
     return 1;
   }
 
-  auto cmd = "git -C \"" + dest.string() + "\" init";
-  auto rc = std::system(cmd.c_str());
-  if (rc == 0) {
-    std::system(("git -C \"" + dest.string() + "\" add -A").c_str());
-    std::system(("git -C \"" + dest.string() + "\" commit -m \"export from forge\"").c_str());
-  }
+  std::cout << "Exported working tree into " << dest.string() << "\n";
+  std::cout << "To turn it into a Git repo, run:\n";
+  std::cout << "  git -C \"" << dest.string() << "\" init\n";
+  std::cout << "  git -C \"" << dest.string() << "\" add -A\n";
+  std::cout << "  git -C \"" << dest.string() << "\" commit -m \"export from forge\"\n";
 
-  std::cout << "Exported into " << dest.string() << "\n";
   return 0;
 }
 

@@ -1,6 +1,11 @@
 add_library(forge_core STATIC
   src/repo/repo.cpp
   src/config/config.cpp
+  src/crypto/dpapi.cpp
+  src/crypto/aead.cpp
+  src/crypto/context.cpp
+  src/crypto/file.cpp
+  src/crypto/credentials.cpp
   src/objectstore/objectstore.cpp
   src/index/index.cpp
   src/refs/refs.cpp

@@ -4,6 +4,11 @@
 
 namespace forge_core::transfer {
 
+static constexpr std::uint32_t MAX_FRAME_COUNT = 200000;
+static constexpr std::uint32_t MAX_PATH_LEN = 4096;
+static constexpr std::uint32_t MAX_FRAME_BYTES = 32u * 1024u * 1024u;
+static constexpr std::uint64_t MAX_TOTAL_BYTES = 256ull * 1024ull * 1024ull;
+
 static void write_u32(std::string& out, std::uint32_t v) {
   out.push_back(static_cast<char>(v & 0xFF));
   out.push_back(static_cast<char>((v >> 8) & 0xFF));
@@ -41,15 +46,34 @@ std::optional<std::vector<FileEntry>> decode_frames(std::string_view bytes, std:
     if (err) *err = "truncated";
     return std::nullopt;
   }
+  if (*nopt > MAX_FRAME_COUNT) {
+    if (err) *err = "too many frames";
+    return std::nullopt;
+  }
   std::vector<FileEntry> out;
   out.reserve(*nopt);
+  std::uint64_t total = 0;
   for (std::uint32_t i = 0; i < *nopt; ++i) {
     auto plen = read_u32(bytes, off);
     if (!plen || off + *plen > bytes.size()) return std::nullopt;
+    if (*plen > MAX_PATH_LEN) {
+      if (err) *err = "path too long";
+      return std::nullopt;
+    }
     std::string path(bytes.substr(off, *plen));
     off += *plen;
     auto dlen = read_u32(bytes, off);
     if (!dlen || off + *dlen > bytes.size()) return std::nullopt;
+    if (*dlen > MAX_FRAME_BYTES) {
+      if (err) *err = "frame too large";
+      return std::nullopt;
+    }
+    total += *plen;
+    total += *dlen;
+    if (total > MAX_TOTAL_BYTES) {
+      if (err) *err = "payload too large";
+      return std::nullopt;
+    }
     std::string data(bytes.substr(off, *dlen));
     off += *dlen;
     out.push_back({std::move(path), std::move(data)});

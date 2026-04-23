@@ -16,6 +16,7 @@ add_executable(forge
   commands/stash.cpp
   commands/submodule.cpp
   commands/remote.cpp
+  commands/auth.cpp
   commands/clone.cpp
   commands/fetch.cpp
   commands/push.cpp

@@ -37,7 +37,15 @@ static std::optional<RemoteUrl> parse_http_like(const std::string& s, Scheme sch
   auto colon = hostport.rfind(':');
   if (colon != std::string::npos && colon + 1 < hostport.size()) {
     u.host = hostport.substr(0, colon);
-    u.port = std::stoi(hostport.substr(colon + 1));
+    auto ps = hostport.substr(colon + 1);
+    int port = 0;
+    for (char c : ps) {
+      if (c < '0' || c > '9') return std::nullopt;
+      port = port * 10 + (c - '0');
+      if (port > 65535) return std::nullopt;
+    }
+    if (port <= 0) return std::nullopt;
+    u.port = port;
   } else {
     u.host = hostport;
     u.port = (scheme == Scheme::Https) ? 443 : 80;

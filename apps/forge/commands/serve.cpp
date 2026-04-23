@@ -35,7 +35,7 @@ static int serve_http(const forge_cli::ParsedArgs& a) {
     return 2;
   }
 
-  std::string host = "0.0.0.0";
+  std::string host = (a.has_flag("public") ? "0.0.0.0" : "127.0.0.1");
   int port = 8080;
   auto colon = addr.rfind(':');
   if (colon != std::string::npos) {
@@ -47,6 +47,7 @@ static int serve_http(const forge_cli::ParsedArgs& a) {
 
   auto repo = opt_repo(a);
   httplib::Server srv;
+  srv.set_payload_max_length(256ull * 1024ull * 1024ull);
 
   srv.Get(R"(/info/refs)", [&](const httplib::Request& req, httplib::Response& res) {
     if (!token_ok(req)) { res.status = 401; return; }
@@ -86,6 +87,76 @@ static int serve_http(const forge_cli::ParsedArgs& a) {
   return 0;
 }
 
+static int serve_https(const forge_cli::ParsedArgs& a) {
+#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+  auto addr = a.option("https");
+  if (addr.empty()) {
+    std::cerr << "forge serve: provide --https=:8443 --cert=... --key=...\n";
+    return 2;
+  }
+  auto cert = a.option("cert");
+  auto key = a.option("key");
+  if (cert.empty() || key.empty()) {
+    std::cerr << "forge serve: provide --cert and --key\n";
+    return 2;
+  }
+
+  std::string host = (a.has_flag("public") ? "0.0.0.0" : "127.0.0.1");
+  int port = 8443;
+  auto colon = addr.rfind(':');
+  if (colon != std::string::npos) {
+    if (colon > 0) host = addr.substr(0, colon);
+    port = std::stoi(addr.substr(colon + 1));
+  } else {
+    port = std::stoi(addr);
+  }
+
+  auto repo = opt_repo(a);
+  httplib::SSLServer srv(cert.c_str(), key.c_str());
+  srv.set_payload_max_length(256ull * 1024ull * 1024ull);
+
+  srv.Get(R"(/info/refs)", [&](const httplib::Request& req, httplib::Response& res) {
+    if (!token_ok(req)) { res.status = 401; return; }
+    std::string err;
+    auto r = forge_server::info_refs(repo, &err);
+    if (!err.empty()) { res.status = 500; res.set_content(err, "text/plain"); return; }
+    res.set_content(r.text, "text/plain");
+  });
+
+  srv.Post(R"(/fetch)", [&](const httplib::Request& req, httplib::Response& res) {
+    if (!token_ok(req)) { res.status = 401; return; }
+    std::string err;
+    auto entries = forge_core::transfer::snapshot_forge_dir(repo, &err);
+    if (!err.empty()) { res.status = 500; res.set_content(err, "text/plain"); return; }
+    auto body = forge_core::transfer::encode_frames(entries);
+    res.set_content(std::move(body), "application/octet-stream");
+  });
+
+  srv.Post(R"(/push)", [&](const httplib::Request& req, httplib::Response& res) {
+    if (!token_ok(req)) { res.status = 401; return; }
+    std::string err;
+    auto decoded = forge_core::transfer::decode_frames(req.body, &err);
+    if (!decoded) { res.status = 400; res.set_content("decode failed", "text/plain"); return; }
+    if (!forge_core::transfer::apply_snapshot(repo, *decoded, &err)) {
+      res.status = 500;
+      res.set_content(err, "text/plain");
+      return;
+    }
+    res.set_content("OK\n", "text/plain");
+  });
+
+  std::cout << "Serving " << repo.string() << " on https://" << host << ":" << port << "\n";
+  if (!srv.listen(host, port)) {
+    std::cerr << "forge serve: listen failed\n";
+    return 1;
+  }
+  return 0;
+#else
+  std::cerr << "forge serve: built without OpenSSL support\n";
+  return 1;
+#endif
+}
+
 static int serve_stdio(const forge_cli::ParsedArgs& a) {
   auto repo = opt_repo(a);
   const char* need = std::getenv("FORGE_TOKEN");
@@ -120,6 +191,7 @@ static int serve_stdio(const forge_cli::ParsedArgs& a) {
 
 int serve(const forge_cli::ParsedArgs& a) {
   if (a.options.find("stdio") != a.options.end()) return serve_stdio(a);
+  if (!a.option("https").empty()) return serve_https(a);
   if (!a.option("http").empty() || !a.option("listen").empty()) return serve_http(a);
   std::cerr << "forge serve: use --http=:8080 or --stdio\n";
   return 2;

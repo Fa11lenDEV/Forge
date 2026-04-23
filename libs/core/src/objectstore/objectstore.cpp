@@ -1,5 +1,6 @@
 #include "forge_core/objectstore/objectstore.h"
 
+#include "forge_core/crypto/file.h"
 #include "forge_core/repo/repo.h"
 #include "forge_format/hash.h"
 #include "forge_format/pack.h"
@@ -71,7 +72,7 @@ ObjectId store_loose(const std::filesystem::path& workdir, ObjectType type, std:
     return {};
   }
 
-  if (!forge_platform::fs::write_file_atomic(out_path, *comp)) {
+  if (!forge_core::crypto::file::write_repo_file_atomic(workdir, out_path, *comp, err)) {
     if (err) *err = "failed to write object";
     return {};
   }
@@ -101,7 +102,7 @@ static bool parse_header(std::string_view canonical, ObjectType* out_type, size_
 std::optional<StoredObject> load_loose(const std::filesystem::path& workdir, std::string_view hex, std::string* err) {
   auto paths = repo::make_paths(workdir);
   auto p = loose_path(paths, hex);
-  auto raw = forge_platform::fs::read_file(p);
+  auto raw = forge_core::crypto::file::read_repo_file(workdir, p, err);
   if (!raw) {
     auto packed = forge_format::pack::read_object_from_packs(paths.forge_dir, hex, err);
     if (!packed) {
