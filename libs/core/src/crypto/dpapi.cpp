@@ -3,6 +3,7 @@
 #ifdef _WIN32
 #  include <windows.h>
 #  include <wincrypt.h>
+#   pragma comment(lib, "Crypt32.lib")
 #endif
 
 namespace forge_core::crypto::dpapi {
