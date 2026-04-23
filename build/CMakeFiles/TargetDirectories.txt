@@ -1,0 +1,16 @@
+C:/Users/TATI/Documents/git-v2/build/CMakeFiles/RUN_TESTS.dir
+C:/Users/TATI/Documents/git-v2/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/TATI/Documents/git-v2/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/TATI/Documents/git-v2/build/libs/cli/CMakeFiles/forge_cli.dir
+C:/Users/TATI/Documents/git-v2/build/libs/cli/CMakeFiles/RUN_TESTS.dir
+C:/Users/TATI/Documents/git-v2/build/libs/platform/CMakeFiles/forge_platform.dir
+C:/Users/TATI/Documents/git-v2/build/libs/platform/CMakeFiles/RUN_TESTS.dir
+C:/Users/TATI/Documents/git-v2/build/libs/format/CMakeFiles/forge_format.dir
+C:/Users/TATI/Documents/git-v2/build/libs/format/CMakeFiles/RUN_TESTS.dir
+C:/Users/TATI/Documents/git-v2/build/libs/core/CMakeFiles/forge_core.dir
+C:/Users/TATI/Documents/git-v2/build/libs/core/CMakeFiles/RUN_TESTS.dir
+C:/Users/TATI/Documents/git-v2/build/apps/forge/CMakeFiles/forge.dir
+C:/Users/TATI/Documents/git-v2/build/apps/forge/CMakeFiles/RUN_TESTS.dir
+C:/Users/TATI/Documents/git-v2/build/tests/CMakeFiles/forge_smoke.dir
+C:/Users/TATI/Documents/git-v2/build/tests/CMakeFiles/forge_integration.dir
+C:/Users/TATI/Documents/git-v2/build/tests/CMakeFiles/RUN_TESTS.dir

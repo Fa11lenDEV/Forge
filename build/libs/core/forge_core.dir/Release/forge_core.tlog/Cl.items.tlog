@@ -1,0 +1,12 @@
+C:\Users\TATI\Documents\git-v2\libs\core\src\repo\repo.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\repo.obj
+C:\Users\TATI\Documents\git-v2\libs\core\src\objectstore\objectstore.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\objectstore.obj
+C:\Users\TATI\Documents\git-v2\libs\core\src\index\index.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\index.obj
+C:\Users\TATI\Documents\git-v2\libs\core\src\refs\refs.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\refs.obj
+C:\Users\TATI\Documents\git-v2\libs\core\src\commit\commit.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\commit.obj
+C:\Users\TATI\Documents\git-v2\libs\core\src\diff\diff.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\diff.obj
+C:\Users\TATI\Documents\git-v2\libs\core\src\checkout\checkout.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\checkout.obj
+C:\Users\TATI\Documents\git-v2\libs\core\src\merge\merge.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\merge.obj
+C:\Users\TATI\Documents\git-v2\libs\core\src\rebase\rebase.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\rebase.obj
+C:\Users\TATI\Documents\git-v2\libs\core\src\tag\tag.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\tag.obj
+C:\Users\TATI\Documents\git-v2\libs\core\src\stash\stash.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\stash.obj
+C:\Users\TATI\Documents\git-v2\libs\core\src\submodule\submodule.cpp;C:\Users\TATI\Documents\git-v2\build\libs\core\forge_core.dir\Release\submodule.obj

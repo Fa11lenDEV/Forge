@@ -1,0 +1,10 @@
+{
+  "name": "forgevcs",
+  "version-string": "0.1.0",
+  "dependencies": [
+    "zstd",
+    "blake3",
+    "cpp-httplib"
+  ]
+}
+

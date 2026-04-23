@@ -1,0 +1,13 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake
+C:/Users/TATI/Documents/git-v2/build/vcpkg_installed/x64-windows/share/blake3/blake3-config-version.cmake
+C:/Users/TATI/Documents/git-v2/build/vcpkg_installed/x64-windows/share/blake3/blake3-config.cmake
+C:/Users/TATI/Documents/git-v2/build/vcpkg_installed/x64-windows/share/blake3/blake3-targets-debug.cmake
+C:/Users/TATI/Documents/git-v2/build/vcpkg_installed/x64-windows/share/blake3/blake3-targets-release.cmake
+C:/Users/TATI/Documents/git-v2/build/vcpkg_installed/x64-windows/share/blake3/blake3-targets.cmake
+C:/Users/TATI/Documents/git-v2/build/vcpkg_installed/x64-windows/share/zstd/zstdConfig.cmake
+C:/Users/TATI/Documents/git-v2/build/vcpkg_installed/x64-windows/share/zstd/zstdConfigVersion.cmake
+C:/Users/TATI/Documents/git-v2/build/vcpkg_installed/x64-windows/share/zstd/zstdTargets-debug.cmake
+C:/Users/TATI/Documents/git-v2/build/vcpkg_installed/x64-windows/share/zstd/zstdTargets-release.cmake
+C:/Users/TATI/Documents/git-v2/build/vcpkg_installed/x64-windows/share/zstd/zstdTargets.cmake
+C:/Users/TATI/Documents/git-v2/libs/format/CMakeLists.txt

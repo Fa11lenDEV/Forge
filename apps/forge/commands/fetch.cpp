@@ -1,0 +1,69 @@
+#include "forge_cli/args.h"
+#include "forge_platform/fs.h"
+#include "forge_platform/path.h"
+
+#include <filesystem>
+#include <iostream>
+
+namespace forge_app::commands {
+
+static std::optional<std::string> read_remote_path(const std::filesystem::path& wd, const std::string& name) {
+  return forge_platform::fs::read_file(wd / ".forge" / "remotes" / name);
+}
+
+static bool copy_objects(const std::filesystem::path& from_forge, const std::filesystem::path& to_forge, std::string* err) {
+  std::error_code ec;
+  auto from = from_forge / "objects";
+  auto to = to_forge / "objects";
+  if (!std::filesystem::exists(from, ec)) return true;
+  for (auto& it : std::filesystem::recursive_directory_iterator(from, ec)) {
+    if (it.is_directory()) continue;
+    auto rel = it.path().lexically_relative(from);
+    auto dst = to / rel;
+    std::filesystem::create_directories(dst.parent_path(), ec);
+    std::filesystem::copy_file(it.path(), dst, std::filesystem::copy_options::skip_existing, ec);
+    ec.clear();
+  }
+  return true;
+}
+
+static bool copy_refs(const std::filesystem::path& from_forge, const std::filesystem::path& to_forge, std::string* err) {
+  std::error_code ec;
+  auto from = from_forge / "refs" / "heads";
+  auto to = to_forge / "refs" / "remotes" / "origin";
+  if (!std::filesystem::exists(from, ec)) return true;
+  for (auto& it : std::filesystem::directory_iterator(from, ec)) {
+    if (!it.is_regular_file()) continue;
+    auto dst = to / it.path().filename();
+    std::filesystem::create_directories(dst.parent_path(), ec);
+    std::filesystem::copy_file(it.path(), dst, std::filesystem::copy_options::overwrite_existing, ec);
+    ec.clear();
+  }
+  return true;
+}
+
+int fetch(const forge_cli::ParsedArgs& a) {
+  auto name = a.positionals.empty() ? "origin" : a.positionals[0];
+  auto wd = forge_platform::path::cwd();
+  auto rp = read_remote_path(wd, name);
+  if (!rp) {
+    std::cerr << "forge fetch: remote not found\n";
+    return 1;
+  }
+  auto remote = std::filesystem::path(*rp);
+  if (remote.is_relative()) remote = (wd / remote).lexically_normal();
+
+  std::string err;
+  if (!copy_objects(remote / ".forge", wd / ".forge", &err)) {
+    std::cerr << "forge fetch: " << err << "\n";
+    return 1;
+  }
+  if (!copy_refs(remote / ".forge", wd / ".forge", &err)) {
+    std::cerr << "forge fetch: " << err << "\n";
+    return 1;
+  }
+  return 0;
+}
+
+}
+

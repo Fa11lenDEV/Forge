@@ -1,0 +1,13 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/TATI/Documents/git-v2/build/cmake_install.cmake",
+		"C:/Users/TATI/Documents/git-v2/build/libs/cli/cmake_install.cmake",
+		"C:/Users/TATI/Documents/git-v2/build/libs/platform/cmake_install.cmake",
+		"C:/Users/TATI/Documents/git-v2/build/libs/format/cmake_install.cmake",
+		"C:/Users/TATI/Documents/git-v2/build/libs/core/cmake_install.cmake",
+		"C:/Users/TATI/Documents/git-v2/build/apps/forge/cmake_install.cmake",
+		"C:/Users/TATI/Documents/git-v2/build/tests/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

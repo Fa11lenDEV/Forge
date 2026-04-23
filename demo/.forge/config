@@ -1,0 +1,3 @@
+core.formatversion=1
+core.hash=blake3
+core.compress=zstd

@@ -1,0 +1,10 @@
+^C:\USERS\TATI\DOCUMENTS\GIT-V2\BUILD\CMAKEFILES\70FAA800494DC7B847A275C86C70657D\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/TATI/Documents/git-v2 -BC:/Users/TATI/Documents/git-v2/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/TATI/Documents/git-v2/build/ForgeVCS.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
