@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="images/LogoTxt.png" alt="Nome do Projeto" width="100%">
+</p>
+
 # ForgeVCS
 
 A C++ VCS with its own repository format (`.forge/`) and a `forge` CLI.
