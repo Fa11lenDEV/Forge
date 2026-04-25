@@ -18,7 +18,7 @@ A C++ VCS with its own repository format (`.forge/`) and a `forge` CLI.
 ## Build (Windows, PowerShell)
 
 ```powershell
-cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -G "Visual Studio 17 2022" -A x64
 cmake --build build -j
 ```
 

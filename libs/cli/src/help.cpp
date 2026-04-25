@@ -7,7 +7,7 @@ std::string root_help() {
 R"(forge - a fast VCS with `.forge/` repositories
 
 Usage:
-  forge <comando> [opções]
+  forge <command> [options]
 
 Commands:
   init
