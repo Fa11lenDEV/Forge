@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/LogoTxt.png" alt="Nome do Projeto" width="100%">
+  <img src="images/LogoTxt.png" alt="Forge" width="100%">
 </p>
 
 # ForgeVCS
