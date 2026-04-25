@@ -5,7 +5,8 @@
     "zstd",
     "blake3",
     "cpp-httplib",
-    "openssl"
+    "openssl",
+    "libgit2"
   ]
 }
 

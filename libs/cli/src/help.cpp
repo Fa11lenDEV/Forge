@@ -164,7 +164,13 @@ R"(Usage:
   if (cmd == "clone") {
     return
 R"(Usage:
-  forge clone <path> [dest]
+  forge clone <source> [dest] [--token=<token>]
+
+Supported sources:
+  - Forge local repository path
+  - Forge HTTP/HTTPS URL
+  - Git local repository path (imports snapshot into Forge)
+  - Git HTTP/HTTPS URL (cloned via built-in libgit2, no git.exe)
 )";
   }
   if (cmd == "fetch") {

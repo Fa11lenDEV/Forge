@@ -27,6 +27,8 @@ add_executable(forge
 )
 
 target_link_libraries(forge PRIVATE forge_cli forge_core forge_platform forge_server)
+find_package(libgit2 CONFIG REQUIRED)
+target_link_libraries(forge PRIVATE libgit2::libgit2package)
 
 set_target_properties(forge PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/apps/forge"

@@ -14,6 +14,7 @@ A C++ VCS with its own repository format (`.forge/`) and a `forge` CLI.
   - `zstd`
   - `blake3`
   - `cpp-httplib`
+  - `libgit2`
 
 ## Build (Windows, PowerShell)
 
@@ -70,7 +71,7 @@ echo hello > a.txt
 - `forge submodule status`
 - `forge remote add <name> <path>`
 - `forge remote list`
-- `forge clone <path> [dest]`
+- `forge clone <path|url> [dest] [--token=<token>]`
 - `forge fetch [remote] [--token=<token>]`
 - `forge push [remote] [--token=<token>]`
 - `forge pull [remote]`
@@ -90,4 +91,6 @@ echo hello > a.txt
   - Provide `--token=<token>` on the client (or set `FORGE_TOKEN` in the client environment)
 - SSH stdio server mode exists (`forge serve --stdio`), intended to be used behind an SSH forced-command setup.
 - `import-git` / `export-git` are currently **snapshot-based** helpers, not full history conversion.
+- `forge clone` does not require Git installed; Git HTTP/HTTPS clone uses built-in `libgit2`, and local Git path clone imports snapshot from `<repo>/.git`.
+- `forge clone` also clones Forge repositories (`.forge`) from local paths and Forge HTTP/HTTPS remotes.
 
