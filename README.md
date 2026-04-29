@@ -67,7 +67,9 @@ echo hello > a.txt
 - `forge stash list`
 - `forge stash apply`
 - `forge stash pop`
-- `forge submodule add <url> <path>`
+- `forge submodule add <url> <path> [--sparse=<paths>]`
+- `forge submodule set-sparse <path> <paths>`
+- `forge submodule update <path>`
 - `forge submodule status`
 - `forge remote add <name> <path>`
 - `forge remote list`
@@ -93,4 +95,19 @@ echo hello > a.txt
 - `import-git` / `export-git` are currently **snapshot-based** helpers, not full history conversion.
 - `forge clone` does not require Git installed; Git HTTP/HTTPS clone uses built-in `libgit2`, and local Git path clone imports snapshot from `<repo>/.git`.
 - `forge clone` also clones Forge repositories (`.forge`) from local paths and Forge HTTP/HTTPS remotes.
+
+## Submodules with Sparse Checkout
+
+Forge supports sparse checkout in submodules, allowing you to clone only specific parts of a repository:
+
+```powershell
+forge submodule add https://github.com/mycompany/engine.git engine --sparse=src/core,include
+forge submodule status
+forge submodule set-sparse engine src/core,include,src/renderer
+forge submodule update engine
+```
+
+This is useful for large repositories where you only need specific components (e.g., cloning only a game engine from a larger project).
+
+See [docs/SPARSE_CHECKOUT.md](docs/SPARSE_CHECKOUT.md) for detailed documentation.
 
